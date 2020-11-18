@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game of Life</title>
+</head>
+<style>
+    .grid{
+        height: 400px;
+        width: 400px;
+        background-color: black;
+        display: flex;
+        flex-wrap: wrap;
+        
+    }
+    .box{
+        height:8px;
+        width: 8px;
+        border:1px solid black;
+    }
+    .box-color{
+        background-color: white;
+    }
+    .newColor{
+        background-color: red;
+    }
+</style>
+<body>
+    <div class="grid"></div>
+</body>
+
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+
+    
+    const row=40;
+    const col=40;
+    
+    let grid=createGrid(row,col);
+    let canvasGrid=createCanvas(); //add div element and box class
+   
+    
+
+    
+   
+
+    function createCanvas(){
+        const mainCanvas=document.querySelector('.grid');
+        for(let i=0;i<row;i++){
+        for(let j=0;j<col;j++){
+           const div=document.createElement('div');
+           div.classList.add("box");
+           mainCanvas.appendChild(div);
+        }
+      }
+        // Nodelist with box class
+        const canvas=document.querySelectorAll(".box");
+        // Nodelist to arr
+        const canvasArr=[...canvas];
+        //create canvasGrid
+        let canvasGrid=createGrid(row,col);
+        
+        //adding div box class to canvasGrid
+        let cnt=0;
+        let iRow=0,jCol=0;
+        for(let i=0;i<canvasArr.length;i++){
+            if(cnt==40){
+            jCol=0;
+            iRow++;
+            cnt=0;
+            }
+            canvasGrid[iRow][jCol]=canvasArr[i];
+            jCol++;
+            cnt++;
+        }
+        
+
+        //Adding color property to canvasGrid where grid[i][j]=1;
+        for(let i=0;i<row;i++){
+            for(let j=0;j<col;j++){
+                if(grid[i][j]===1){
+                    canvasGrid[i][j].classList.add("box-color");
+                }
+            }
+        } 
+        return canvasGrid;
+    }
+
+    function createGrid(rows,col){
+        let grid=Array(rows)
+        .fill()
+        .map(()=>Array(col).fill(0))
+
+        fillGrid(grid); //fill with grid Randomly with 0,1(random)
+
+        return grid;
+    }
+
+    function fillGrid(grid){
+        for(let i=0;i<row;i++){
+        for(let j=0;j<col;j++){
+            const gridVal=Math.floor(Math.random()*2);
+            if(gridVal===1){
+                grid[i][j]=1;
+            }
+        }
+    } 
+}
+
+});
+
+</script>
+
+</html>
